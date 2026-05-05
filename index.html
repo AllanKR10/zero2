@@ -6578,7 +6578,7 @@ input[type=range]::-webkit-slider-thumb {
 
       <button class="btn btn-ghost" onclick="closeModal()">Fechar</button>
 
-      <button class="btn btn-r">Próximo →</button>
+      <button class="btn btn-r" onclick="closeModal();qProximo()">Próximo →</button>
 
     </div>
 
@@ -10614,7 +10614,7 @@ if (typeof showSticker === 'function') {
 
 function showStickerComAlbum(rarity, emoji, name, club, xp) {
 
-  if (window._showStickerOrig) window._showStickerOrig(rarity, emoji, name, club, xp);
+  if (window.ZERO) ZERO.earnSticker(rarity, emoji, name, club, xp);
 
   // Mostrar toast com link para álbum
 
