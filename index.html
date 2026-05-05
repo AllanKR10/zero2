@@ -6993,22 +6993,27 @@ function markGdot(idx, type) {
 
 
 function updateGalBars() {
-
   const pct = Math.round(gIdx / players.length * 100);
-
-  document.getElementById('galBar').style.width = pct + '%';
-
-  document.getElementById('galProg').textContent = gIdx + '/10';
-
-  document.getElementById('galOkCount').textContent = gOk;
-
-  document.getElementById('galFirst').textContent = gFirst;
-
-  document.getElementById('galSkipCount').textContent = gSkips;
-
-  document.getElementById('galPts').textContent = gPts;
-
+  
+  const galBar = document.getElementById('galBar');
+  if (galBar) galBar.style.width = pct + '%';
+  
+  const galProg = document.getElementById('galProg');
+  if (galProg) galProg.textContent = gIdx + '/10';
+  
+  const galOkCount = document.getElementById('galOkCount');
+  if (galOkCount) galOkCount.textContent = gOk;
+  
+  const galFirst = document.getElementById('galFirst');
+  if (galFirst) galFirst.textContent = gFirst;
+  
+  const galSkipCount = document.getElementById('galSkipCount');
+  if (galSkipCount) galSkipCount.textContent = gSkips;
+  
+  const galPts = document.getElementById('galPts');
+  if (galPts) galPts.textContent = gPts;
 }
+
 
 
 
