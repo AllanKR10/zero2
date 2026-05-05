@@ -243,8 +243,6 @@ function carregarProximoEscudo() {
 // Chamar quando a página carregar
 document.addEventListener('DOMContentLoaded', carregarTodos);
 
-document.addEventListener('DOMContentLoaded', carregarTodos);
-
 window.qProximo = function() {
   if (!window._QUIZ) return;
   const quiz = window._QUIZ.rows;
