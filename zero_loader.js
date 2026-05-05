@@ -242,3 +242,29 @@ function carregarProximoEscudo() {
 
 // Chamar quando a página carregar
 document.addEventListener('DOMContentLoaded', carregarTodos);
+
+document.addEventListener('DOMContentLoaded', carregarTodos);
+
+window.qProximo = function() {
+  if (!window._QUIZ) return;
+  const quiz = window._QUIZ.rows;
+  const idx = (window._QUIZ.idx || 0) + 1;
+  if (idx >= quiz.length) return;
+  window._QUIZ.idx = idx;
+  window._QUIZ.atual = quiz[idx];
+  const r = quiz[idx];
+  const vals = [r.posicao, r.idade, r.nacionalidade, r.liga,
+                r.gols_temporada, r.assists_temporada, r.altura,
+                r.pe === 'DIR' ? 'DIR' : 'ESQ'];
+  document.querySelectorAll('#g-quiz .scv').forEach((el, i) => {
+    if (vals[i] !== undefined) el.textContent = vals[i];
+  });
+  document.getElementById('qInp').value = '';
+  document.getElementById('qGuesses').innerHTML = '';
+  document.getElementById('qHintBox').innerHTML = '';
+  document.getElementById('qHintBox').classList.remove('show');
+  document.querySelectorAll('#g-quiz .hint-btn').forEach(b => b.classList.remove('used'));
+  const dots = document.querySelectorAll('#qDots .dot');
+  dots.forEach(d => { d.className = 'dot'; });
+  if (dots[0]) dots[0].classList.add('on');
+};
