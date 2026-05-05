@@ -10684,8 +10684,7 @@ function qGuessComFigurinhas() {
 
       '<div style="text-align:center"><div style="font-size:28px;font-weight:900;color:var(--green)">' + atual.nome.toUpperCase() + '</div><div style="color:var(--td);margin-top:4px">' + atual.clube + ' - ' + atual.liga + '</div></div>');
 
-    if (window.ZERO) { ZERO.gainXP(150); const sc = document.getElementById('stickerCount'); if(sc && ZERO.stickers) sc.textContent = ZERO.stickers.length; ZERO.updateStreak(); }
-
+if (window.ZERO) { ZERO.earnSticker(rar, atual.emoji_bandeira||'⚽', atual.nome, atual.clube, 100); ZERO.gainXP(150); ZERO.updateStreak(); }
   } else {
 
     const dots = document.querySelectorAll('#qDots .dot');
