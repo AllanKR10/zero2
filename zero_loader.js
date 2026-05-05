@@ -1,0 +1,244 @@
+// ================================================================
+// zero_loader.js — lê DADOS e alimenta todos os jogos
+// Adicionar no final do index.html, ANTES do </script>
+// ================================================================
+
+function getDia(arr) {
+  if (!arr || !arr.length) return null;
+  const hoje = new Date().toISOString().split('T')[0];
+  const doHoje = arr.filter(r => r.data === hoje);
+  return doHoje.length ? doHoje : arr.filter(r => r.data === arr[0].data);
+}
+
+function carregarTodos() {
+  if (typeof DADOS === 'undefined') { console.warn('[ZERO] dados.js não carregado'); return; }
+  console.log('[ZERO] Carregando dados...');
+
+  // ── QUIZ ──
+  const quiz = getDia(DADOS.quiz);
+  if (quiz && quiz.length) {
+    const r = quiz.find(q => q.rodada === 1) || quiz[0];
+    window._QUIZ = { rows: quiz, idx: 0, atual: {
+      nome: r.nome, posicao: r.posicao, idade: r.idade,
+      nacionalidade: r.nacionalidade, liga: r.liga, clube: r.clube,
+      gols_temporada: r.gols_temporada, assists_temporada: r.assists_temporada,
+      altura: r.altura, pe: r.pe === 'DIR' ? 'DIR' : 'ESQ',
+      emoji_bandeira: r.emoji, dificuldade: r.dificuldade,
+      pista_clube: r.pista_clube, pista_selecao: r.pista_selecao,
+      pista_origem: r.pista_origem, pista_titulo: r.pista_titulo,
+      pista_camisa: r.pista_camisa, pista_apelido: r.pista_apelido
+    }};
+    // Stats na tela
+    const vals = [r.posicao, r.idade, r.nacionalidade, r.liga,
+                  r.gols_temporada, r.assists_temporada, r.altura,
+                  r.pe === 'DIR' ? 'DIR' : 'ESQ'];
+    document.querySelectorAll('#g-quiz .scv').forEach((el, i) => {
+      if (vals[i] !== undefined) el.textContent = vals[i];
+    });
+    // Pistas nos botões
+    const pistas = [
+      { icon: r.emoji || '🏟️', txt: r.pista_clube },
+      { icon: '🌎', txt: r.pista_selecao },
+      { icon: '📍', txt: r.pista_origem },
+      { icon: '🏆', txt: r.pista_titulo },
+      { icon: '👕', txt: r.pista_camisa },
+      { icon: '🎭', txt: r.pista_apelido }
+    ];
+    document.querySelectorAll('#g-quiz .hint-btn').forEach((btn, i) => {
+      if (pistas[i] && pistas[i].txt) {
+        const p = pistas[i];
+        btn.onclick = function() { qHint(this, p.icon, p.txt, 50); };
+      }
+    });
+    console.log('[ZERO] Quiz:', r.nome);
+  }
+
+  // ── IMPOSTOR ──
+  const imp = getDia(DADOS.impostor);
+  if (imp && imp.length) {
+    const d = imp[0];
+    window._IMP_CORRETO = d.impostor;
+    // Atualiza título
+    const titulo = document.querySelector('#g-impostor .versus-question, #g-impostor [style*="font-family"]');
+    const nomes = d.jogadores.map(j => j.nome);
+    d.jogadores.forEach((j, i) => {
+      const card = document.getElementById('ic' + i);
+      if (card) {
+        card.querySelector('.imp-name').textContent = j.nome;
+        card.querySelector('.imp-det').textContent = j.detalhe;
+        card.querySelector('.imp-photo div').textContent = j.nac;
+      }
+    });
+    // Evidências
+    document.querySelectorAll('.evid-btn').forEach((btn, i) => {
+      if (d.evidencias[i]) {
+        const ev = d.evidencias[i];
+        btn.onclick = function() { iEv(this, ev.rev); };
+        btn.closest('.evid-row').querySelector('.evid-txt').textContent = ev.txt;
+        btn.closest('.evid-row').querySelector('.evid-ico').textContent = ev.ico;
+      }
+    });
+    console.log('[ZERO] Impostor: idx', d.impostor);
+  }
+
+  // ── ESCUDO ──
+  const escudo = getDia(DADOS.escudo);
+  if (escudo && escudo.length) {
+    window._ESCUDO_HOJE = escudo;
+    window._ESC_IDX = 0;
+    carregarProximoEscudo();
+    console.log('[ZERO] Escudo:', escudo.length, 'times');
+  }
+
+  // ── CARREIRA ──
+  const carr = getDia(DADOS.carreira);
+  if (carr && carr.length) {
+    window._CARREIRA_HOJE = carr;
+    const c = carr[0];
+    // Stats
+    const scvs = document.querySelectorAll('#g-carreira .scv');
+    if (scvs[0]) scvs[0].textContent = c.gols;
+    if (scvs[1]) scvs[1].textContent = c.clubes;
+    if (scvs[2]) scvs[2].textContent = c.anos;
+    // Clubes
+    const cclub1 = document.querySelector('#g-carreira [id="cclub1"], #g-carreira div:nth-child(1)');
+    console.log('[ZERO] Carreira:', c.nome);
+  }
+
+  // ── ADIVINHE O ANO ──
+  const ano = getDia(DADOS.ano);
+  if (ano && ano.length) {
+    const f = ano[0];
+    window._ANO_CORRETO = f.ano;
+    const fatotxt = document.querySelector('.fact-text');
+    if (fatotxt) fatotxt.textContent = '"' + f.fato + '"';
+    const tagsDiv = document.querySelector('#g-ano .fact-card > div:last-child');
+    if (tagsDiv) tagsDiv.innerHTML =
+      '<span class="tag tag-dim">' + f.categoria + '</span>' +
+      '<span class="tag tag-dim">' + f.fase + '</span>' +
+      '<span class="tag tag-dim">' + f.local + '</span>';
+    console.log('[ZERO] Ano:', f.ano);
+  }
+
+  // ── ACERTE O CLUBE ──
+  const clube = getDia(DADOS.clube);
+  if (clube && clube.length) {
+    window._CLUBE_HOJE = clube;
+    const c = clube[0];
+    window._CLUBE_ANS = c.correct;
+    const foto = document.getElementById('clubePlayerPhoto');
+    if (foto) foto.textContent = c.emoji;
+    const nome = document.getElementById('clubePlayerName');
+    if (nome) nome.textContent = c.jogador;
+    const pos = document.getElementById('clubePlayerPos');
+    if (pos) pos.textContent = 'Posição: ' + c.pos;
+    // Opções
+    const opts = document.getElementById('clubeOpts');
+    if (opts) {
+      opts.innerHTML = c.opcoes.map(op =>
+        '<button class="opt-card" onclick="clubeGuess(this,\'' + op + '\',' + (op === c.correct) + ')">' + op + '</button>'
+      ).join('');
+    }
+    console.log('[ZERO] Clube:', c.jogador, '→', c.correct);
+  }
+
+  // ── QUEM MARCOU ──
+  const gol = getDia(DADOS.gol);
+  if (gol && gol.length) {
+    const g = gol[0];
+    window._GOL_CORRETO = g.correct;
+    const desc = document.querySelector('.goal-text');
+    if (desc) desc.textContent = '"' + g.descricao + '"';
+    const tags = document.querySelector('#g-gol .goal-card > div:last-child');
+    if (tags) tags.innerHTML =
+      '<span class="tag tag-gold">' + g.categoria + ' ' + g.ano + '</span>' +
+      '<span class="tag tag-dim">' + g.fase + '</span>' +
+      '<span class="tag tag-dim">' + g.local + '</span>';
+    // Opções
+    const opts = document.querySelector('#g-gol .opts-2x2');
+    if (opts) {
+      opts.innerHTML = g.opcoes.map(op =>
+        '<button class="opt-card" onclick="golGuess(this,\'' + op + '\',' + (op === g.correct) + ')">' + op + '</button>'
+      ).join('');
+    }
+    // Pistas
+    if (g.pistas && g.pistas[0]) {
+      const p1 = document.querySelector('#g-gol .card-body > div > div:first-child');
+      if (p1) p1.textContent = '✓ ' + g.pistas[0];
+    }
+    console.log('[ZERO] Gol:', g.correct);
+  }
+
+  // ── PLACAR ──
+  const placar = getDia(DADOS.placar);
+  if (placar && placar.length) {
+    const p = placar[0];
+    window.PL_ANSWER = p.gols;
+    const title = document.querySelector('.placar-match-title');
+    if (title) title.innerHTML = p.time_casa.toUpperCase() + ' × ' + p.time_fora.toUpperCase() +
+      '<br><span style="font-size:16px;color:var(--td)">' + p.fase + ' · ' + p.local + ' · ' + p.ano + '</span>';
+    const label = document.querySelector('.placar-match-label');
+    if (label) label.textContent = 'JOGO HISTÓRICO — ' + p.categoria.toUpperCase();
+    const inpA = document.getElementById('plA');
+    const inpB = document.getElementById('plB');
+    if (inpA) inpA.placeholder = p.time_casa.substring(0,3).toUpperCase();
+    if (inpB) inpB.placeholder = p.time_fora.substring(0,3).toUpperCase();
+    console.log('[ZERO] Placar:', p.time_casa, p.gols[0], 'x', p.gols[1], p.time_fora);
+  }
+
+  // ── VERSUS ──
+  const versus = getDia(DADOS.versus);
+  if (versus && versus.length) {
+    window.VERSUS_DATA = versus.map(v => ({
+      q: v.pergunta,
+      f0: v.f0, n0: v.n0, c0: v.c0, s0: v.s0,
+      f1: v.f1, n1: v.n1, c1: v.c1, s1: v.s1,
+      correct: v.correct
+    }));
+    vIdx = 0; vCorrect = 0; vWrong = 0; vPts = 0;
+    loadVersus();
+    console.log('[ZERO] Versus:', versus.length, 'duelos');
+  }
+
+  // ── FORCA ──
+  const forca = getDia(DADOS.forca);
+  if (forca && forca.length) {
+    const f = forca[0];
+    window.TRAV_WORD = f.palavra.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    window.TRAV_HINT = f.dica1;
+    initTrav();
+    const el = document.getElementById('travHint');
+    if (el) el.innerHTML = '<span style="margin-right:6px">💡</span>' + f.dica1;
+    console.log('[ZERO] Forca:', window.TRAV_WORD);
+  }
+
+  // Inicializa ZERO (XP, streak, etc)
+  if (window.ZERO) ZERO.init();
+  console.log('[ZERO] Pronto!');
+}
+
+// Escudo: carregar próximo do dia
+function carregarProximoEscudo() {
+  const escudo = window._ESCUDO_HOJE;
+  if (!escudo || !escudo.length) return;
+  const idx = window._ESC_IDX || 0;
+  if (idx >= escudo.length) return;
+  const e = escudo[idx];
+  window.CLUBE_ANS = e.correct;
+  // Emoji
+  const emoji = document.getElementById('shEmoji');
+  if (emoji) emoji.textContent = e.emoji;
+  // Opções
+  const opts = document.querySelector('#g-escudo .opts-2x2');
+  if (opts) {
+    opts.innerHTML = e.opcoes.map(op =>
+      '<button class="opt-card" onclick="escGuess(this,\'' + op + '\')">' + op + '</button>'
+    ).join('');
+  }
+  // Pistas
+  window.eHintTexts = e.pistas;
+  window.eHints = 0;
+}
+
+// Chamar quando a página carregar
+document.addEventListener('DOMContentLoaded', carregarTodos);
