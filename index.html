@@ -448,7 +448,7 @@ body::before {
 .btn-r:hover { background: var(--rd); }
 .btn-r:active { background: var(--rd); }
 
-.btn-ghost { color: var(--t);
+.btn-ghost {
   background: transparent;
   color: var(--td);
   border: 1.5px solid var(--line2);
@@ -2439,34 +2439,9 @@ input[type=range]::-webkit-slider-thumb {
 .pixel-attempt-dot.used { background: var(--red); border-color: var(--red); }
 .pixel-attempt-dot.current { background: var(--green); border-color: var(--green); box-shadow: 0 0 8px rgba(0,229,116,.4); }
 
-
-.pslot {
-  width: 52px; height: 52px;
-  background: rgba(255,255,255,.12);
-  border: 2px solid rgba(255,255,255,.3);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all .2s; flex-direction: column;
-  font-size: 10px; font-weight: 700; color: #fff;
-  text-align: center; padding: 2px;
-  -webkit-tap-highlight-color: transparent;
-}
-.pslot:active, .pslot.sel { border-color: var(--green); background: rgba(0,229,116,.2); }
-.pslot.filled { background: var(--green); border-color: var(--green); color: #000; }
-.pslot.wrong  { background: var(--red);   border-color: var(--red);   color: #fff; }
-.sel-banco { border-color: var(--green) !important; background: rgba(0,229,116,.15) !important; }
-
-
-#qHintBox {
-  display: none;
-  background: var(--bg2);
-  border: 1px solid var(--line2);
-  border-radius: var(--r12);
-  padding: 12px 14px;
-  margin-bottom: 14px;
-}
-#qHintBox.show { display: block; }
-
+.sel-banco { border-color:var(--green) !important;background:rgba(0,229,116,.15) !important; }
+#qHintBox { display:none;background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r12);padding:12px 14px;margin-bottom:14px; }
+#qHintBox.show { display:block; }
 </style>
 </head>
 <body>
@@ -2486,7 +2461,6 @@ input[type=range]::-webkit-slider-thumb {
     <span class="ticker-item"><span class="tb">🥊</span> Versus — Quem Foi Melhor?</span><span class="ticker-sep">•</span>
     <span class="ticker-item"><span class="tb">🔤</span> Forca do Futebol</span><span class="ticker-sep">•</span>
     <span class="ticker-item"><span class="tb">🏟️</span> Acerte o Clube</span><span class="ticker-sep">•</span>
-    <!-- repeat -->
     <span class="ticker-item"><span class="tb">⚽</span> 12 Jogos Todo Dia</span><span class="ticker-sep">•</span>
     <span class="ticker-item"><span class="tb">NOVO</span> Quem É Esse Jogador?</span><span class="ticker-sep">•</span>
     <span class="ticker-item"><span class="tb">HOT</span> Impostor — Descubra o Intruso</span><span class="ticker-sep">•</span>
@@ -2505,7 +2479,7 @@ input[type=range]::-webkit-slider-thumb {
 <!-- HEADER -->
 <header class="header">
   <div class="header-main" style="justify-content:center;position:relative">
-    <a class="logo" href="#" style="flex-direction:column;align-items:center;text-align:center"><span class="logo-zero" style="font-size:24px;letter-spacing:2px">DO ZERO A CRAQUE</span></a>
+    <a class="logo" href="#" style="flex-direction:column;align-items:center;text-align:center"><span class="logo-zero" style="font-size:22px;letter-spacing:2px">DO ZERO A CRAQUE</span></a>
     <div class="header-right" style="position:absolute;right:0;top:50%;transform:translateY(-50%)">
       <div class="streak-chip" id="streakChip">🔥 <span id="streakVal">0</span></div>
       <div class="pts-chip" style="background:var(--greeng);border-color:rgba(0,229,116,.25);color:var(--green)">⭐ 5.240</div>
@@ -2670,15 +2644,6 @@ input[type=range]::-webkit-slider-thumb {
     </div>
   </div>
 
-  </div>
-
-  <!-- META DAS 500 FIGURINHAS -->
-  
-    
-  </div>
-
-  </div>
-
   <div class="ad-mid"><div class="ad-slot">[ Ad In-Content ]</div></div>
 </div>
 
@@ -2716,7 +2681,7 @@ input[type=range]::-webkit-slider-thumb {
       <button class="btn btn-r" onclick="galSubmit()" style="padding:0 16px;flex-shrink:0">→</button>
     </div>
     <div style="display:flex;gap:8px;margin-top:10px">
-      <button class="btn btn-ghost btn-sm" style="flex:1" onclick="galHint()">💡 Pista</button>
+      <button class="btn btn-ghost btn-sm" style="flex:1" onclick="galHint()">💡 Pista (-50)</button>
       <button class="btn btn-ghost btn-sm" style="flex:1" onclick="galSkip()" id="galSkipBtn">⏭ Pular (<span id="galSkipLeft">3</span> restantes)</button>
     </div>
   </div>
@@ -2865,51 +2830,26 @@ input[type=range]::-webkit-slider-thumb {
 </div>
 
 <div class="gs" id="g-escalacao">
-  <div class="sh">
-    <div class="sh-top"><div class="sh-title"><span class="sh-bar"></span>📋 QUAL A ESCALAÇÃO?</div></div>
-    <div class="sh-sub">Toque num jogador do banco e depois numa posição no campo</div>
-  </div>
-  <div class="card">
-    <div class="card-head">
-      <div class="card-title" id="escalTitle">BRASIL — COPA 2002</div>
-      <div style="font-family:'JetBrains Mono';font-size:12px;color:var(--green)" id="escalCount">0/11 colocados</div>
+  <div class="sh"><div class="sh-top"><div class="sh-title"><span class="sh-bar"></span>📋 QUAL A ESCALAÇÃO?</div></div><div class="sh-sub">Toque num jogador do banco e depois numa posição no campo</div></div>
+  <div class="card"><div class="card-head"><div class="card-title" id="escalTitle">BRASIL — COPA 2002</div><div style="font-family:'JetBrains Mono';font-size:12px;color:var(--green)" id="escalCount">0/11 colocados</div></div>
+  <div class="card-body" style="padding:10px">
+    <div style="background:linear-gradient(180deg,#1a4a1a,#2d6e2d);border-radius:var(--r12);padding:14px 8px;margin-bottom:14px">
+      <div style="text-align:center;font-size:9px;color:rgba(255,255,255,.4);letter-spacing:2px;margin-bottom:10px">GOL ADVERSÁRIO</div>
+      <div style="display:flex;justify-content:center;margin-bottom:10px"><div class="pslot" id="sl-ATA" onclick="escalSelect('ATA')"><span style="font-size:9px;opacity:.6">ATA</span></div></div>
+      <div style="display:flex;justify-content:center;gap:10px;margin-bottom:10px"><div class="pslot" id="sl-ME1" onclick="escalSelect('ME1')"><span style="font-size:9px;opacity:.6">ME1</span></div><div class="pslot" id="sl-ME2" onclick="escalSelect('ME2')"><span style="font-size:9px;opacity:.6">ME2</span></div></div>
+      <div style="display:flex;justify-content:center;gap:10px;margin-bottom:10px"><div class="pslot" id="sl-VO1" onclick="escalSelect('VO1')"><span style="font-size:9px;opacity:.6">VO1</span></div><div class="pslot" id="sl-VO2" onclick="escalSelect('VO2')"><span style="font-size:9px;opacity:.6">VO2</span></div><div class="pslot" id="sl-VO3" onclick="escalSelect('VO3')"><span style="font-size:9px;opacity:.6">VO3</span></div></div>
+      <div style="display:flex;justify-content:center;gap:6px;margin-bottom:10px"><div class="pslot" id="sl-LD" onclick="escalSelect('LD')"><span style="font-size:9px;opacity:.6">LD</span></div><div class="pslot" id="sl-ZG1" onclick="escalSelect('ZG1')"><span style="font-size:9px;opacity:.6">ZG1</span></div><div class="pslot" id="sl-ZG2" onclick="escalSelect('ZG2')"><span style="font-size:9px;opacity:.6">ZG2</span></div><div class="pslot" id="sl-LE" onclick="escalSelect('LE')"><span style="font-size:9px;opacity:.6">LE</span></div></div>
+      <div style="display:flex;justify-content:center;margin-bottom:6px"><div class="pslot" id="sl-GOL" onclick="escalSelect('GOL')"><span style="font-size:9px;opacity:.6">GOL</span></div></div>
+      <div style="text-align:center;font-size:9px;color:rgba(255,255,255,.4);letter-spacing:2px">SEU GOL</div>
     </div>
-    <div class="card-body" style="padding:10px">
-      <div style="background:linear-gradient(180deg,#1a4a1a,#2d6e2d);border-radius:var(--r12);padding:14px 8px;margin-bottom:14px">
-        <div style="text-align:center;font-size:9px;color:rgba(255,255,255,.4);letter-spacing:2px;margin-bottom:10px">GOL ADVERSÁRIO</div>
-        <div style="display:flex;justify-content:center;margin-bottom:10px">
-          <div class="pslot" id="sl-ATA" onclick="escalSelect('ATA')"><span style="font-size:9px;opacity:.6">ATA</span></div>
-        </div>
-        <div style="display:flex;justify-content:center;gap:10px;margin-bottom:10px">
-          <div class="pslot" id="sl-ME1" onclick="escalSelect('ME1')"><span style="font-size:9px;opacity:.6">ME1</span></div>
-          <div class="pslot" id="sl-ME2" onclick="escalSelect('ME2')"><span style="font-size:9px;opacity:.6">ME2</span></div>
-        </div>
-        <div style="display:flex;justify-content:center;gap:10px;margin-bottom:10px">
-          <div class="pslot" id="sl-VO1" onclick="escalSelect('VO1')"><span style="font-size:9px;opacity:.6">VO1</span></div>
-          <div class="pslot" id="sl-VO2" onclick="escalSelect('VO2')"><span style="font-size:9px;opacity:.6">VO2</span></div>
-          <div class="pslot" id="sl-VO3" onclick="escalSelect('VO3')"><span style="font-size:9px;opacity:.6">VO3</span></div>
-        </div>
-        <div style="display:flex;justify-content:center;gap:6px;margin-bottom:10px">
-          <div class="pslot" id="sl-LD"  onclick="escalSelect('LD')"><span style="font-size:9px;opacity:.6">LD</span></div>
-          <div class="pslot" id="sl-ZG1" onclick="escalSelect('ZG1')"><span style="font-size:9px;opacity:.6">ZG1</span></div>
-          <div class="pslot" id="sl-ZG2" onclick="escalSelect('ZG2')"><span style="font-size:9px;opacity:.6">ZG2</span></div>
-          <div class="pslot" id="sl-LE"  onclick="escalSelect('LE')"><span style="font-size:9px;opacity:.6">LE</span></div>
-        </div>
-        <div style="display:flex;justify-content:center;margin-bottom:6px">
-          <div class="pslot" id="sl-GOL" onclick="escalSelect('GOL')"><span style="font-size:9px;opacity:.6">GOL</span></div>
-        </div>
-        <div style="text-align:center;font-size:9px;color:rgba(255,255,255,.4);letter-spacing:2px">SEU GOL</div>
-      </div>
-      <div id="escalMsg" style="background:var(--greens);border:1px solid var(--green);border-radius:var(--r8);padding:10px;margin-bottom:12px;font-size:12px;font-weight:700;color:var(--green);text-align:center;display:none"></div>
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--td);margin-bottom:8px;font-weight:700">BANCO — toque para selecionar</div>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px" id="escalBanco"></div>
-      <button class="btn btn-g btn-full" onclick="escalVerificar()" id="escalBtn" style="display:none">VERIFICAR ESCALAÇÃO</button>
-      <div id="escalResult" style="display:none;margin-top:12px;padding:14px;border-radius:var(--r8);text-align:center;font-weight:700;font-size:14px"></div>
-    </div>
-  </div>
+    <div id="escalMsg" style="background:var(--greens);border:1px solid var(--green);border-radius:var(--r8);padding:10px;margin-bottom:12px;font-size:12px;font-weight:700;color:var(--green);text-align:center;display:none"></div>
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--td);margin-bottom:8px;font-weight:700">BANCO — toque para selecionar</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px" id="escalBanco"></div>
+    <button class="btn btn-g btn-full" onclick="escalVerificar()" id="escalBtn" style="display:none">VERIFICAR ESCALAÇÃO</button>
+    <div id="escalResult" style="display:none;margin-top:12px;padding:14px;border-radius:var(--r8);text-align:center;font-weight:700;font-size:14px"></div>
+  </div></div>
   <div class="ad-mid"><div class="ad-slot">[ Ad ]</div></div>
 </div>
-
 <div class="gs" id="g-carreira">
   <div class="sh">
     <div class="sh-top">
@@ -2942,9 +2882,9 @@ input[type=range]::-webkit-slider-thumb {
         </div>
       </div>
       <div style="display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap">
-        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="caHint('ca1')">📈 Assists</button>
-        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="caHint('clubs')">🏟️ Clubes</button>
-        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="caHint('all')">🌎 País</button>
+        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="caHint('ca1')">📈 Assists (-50)</button>
+        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="caHint('clubs')">🏟️ Clubes (-75)</button>
+        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="caHint('all')">🌎 País (-100)</button>
       </div>
       <div style="display:flex;gap:8px">
         <input class="inp" id="caInp" placeholder="Nome do jogador..." onkeypress="if(event.key==='Enter')caSubmit()" style="flex:1">
@@ -2965,7 +2905,7 @@ input[type=range]::-webkit-slider-thumb {
   <div class="card">
     <div class="card-head">
       <div class="card-title">FATO HISTÓRICO — 3/5</div>
-      
+      <div style="font-family:'JetBrains Mono';font-size:12px;color:var(--r)">500 pts</div>
     </div>
     <div class="card-body">
       <div class="fact-card">
@@ -3063,8 +3003,8 @@ input[type=range]::-webkit-slider-thumb {
       <div style="margin-bottom:14px">
         <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--td);margin-bottom:8px;font-weight:700">PISTAS:</div>
         <div style="background:var(--greeng);border:1px solid var(--green);border-radius:var(--r8);padding:10px 13px;font-size:13px;margin-bottom:8px">✓ Camisa 10 da seleção argentina</div>
-        <button class="btn btn-ghost btn-full btn-sm" style="justify-content:flex-start;margin-bottom:8px;text-align:left" onclick="golHint(this,'Também fez a Mão de Deus no mesmo jogo')">💡 Pista 2 — Revelar</button>
-        <button class="btn btn-ghost btn-full btn-sm" style="justify-content:flex-start;text-align:left" onclick="golHint(this,'Eleito Gol do Século pela FIFA em 2002')">💡 Pista 3 — Revelar</button>
+        <button class="btn btn-ghost btn-full btn-sm" style="justify-content:flex-start;margin-bottom:8px;text-align:left" onclick="golHint(this,'Também fez a Mão de Deus no mesmo jogo (-75)')">💡 Pista 2 — Revelar (-75)</button>
+        <button class="btn btn-ghost btn-full btn-sm" style="justify-content:flex-start;text-align:left" onclick="golHint(this,'Eleito Gol do Século pela FIFA em 2002 (-100)')">💡 Pista 3 — Revelar (-100)</button>
       </div>
       <div class="opts-2x2">
         <button class="opt-card" onclick="golGuess(this,'Maradona',true)">🇦🇷 Maradona</button>
@@ -3291,42 +3231,23 @@ input[type=range]::-webkit-slider-thumb {
 </div>
 
 
+
 <div class="gs" id="g-album">
-  <div class="sh">
-    <div class="sh-top">
-      <div class="sh-title"><span class="sh-bar"></span>🃏 MEU ÁLBUM</div>
-      <span class="tag tgold" id="albumTotal">0 figurinhas</span>
+  <div class="sh"><div class="sh-top"><div class="sh-title"><span class="sh-bar"></span>🃏 MEU ÁLBUM</div><span class="tag tgold" id="albumTotal">0 figurinhas</span></div><div class="sh-sub">Todas as figurinhas que você já ganhou jogando</div></div>
+  <div class="card"><div class="card-head"><div class="card-title">COLEÇÃO COMPLETA</div><div style="font-size:12px;color:var(--td)" id="albumMeta">0 / 500</div></div>
+  <div class="card-body">
+    <div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--td);margin-bottom:6px"><span>Progresso para carta especial</span><span id="albumPct">0%</span></div><div class="prog"><div class="pf" id="albumBar" style="width:0%"></div></div><div style="font-size:11px;color:var(--td);margin-top:4px;text-align:center" id="albumFaltam">Jogue e ganhe figurinhas!</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <button class="btn btn-ghost btn-sm" onclick="albumFiltrar('todas')" style="border-color:var(--green);color:var(--green)" id="fTodas">Todas</button>
+      <button class="btn btn-ghost btn-sm" onclick="albumFiltrar('legendary')" style="color:var(--gold)" id="fLend">⭐ Lendárias</button>
+      <button class="btn btn-ghost btn-sm" onclick="albumFiltrar('epic')" style="color:#a855f7" id="fEpic">💜 Épicas</button>
+      <button class="btn btn-ghost btn-sm" onclick="albumFiltrar('rare')" style="color:#3b82f6" id="fRare">💙 Raras</button>
+      <button class="btn btn-ghost btn-sm" onclick="albumFiltrar('common')" id="fComm">⬜ Comuns</button>
     </div>
-    <div class="sh-sub">Todas as figurinhas que você já ganhou jogando</div>
-  </div>
-  <div class="card">
-    <div class="card-head">
-      <div class="card-title">COLEÇÃO COMPLETA</div>
-      <div style="font-size:12px;color:var(--td)" id="albumMeta">0 / 500</div>
-    </div>
-    <div class="card-body">
-      <div style="margin-bottom:16px">
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--td);margin-bottom:6px">
-          <span>Progresso para carta especial</span><span id="albumPct">0%</span>
-        </div>
-        <div class="prog"><div class="pf" id="albumBar" style="width:0%"></div></div>
-        <div style="font-size:11px;color:var(--td);margin-top:4px;text-align:center" id="albumFaltam">Jogue e ganhe figurinhas!</div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-        <button class="btn btn-ghost btn-sm" onclick="albumFiltrar('todas')" style="border-color:var(--green);color:var(--green)" id="fTodas">Todas</button>
-        <button class="btn btn-ghost btn-sm" onclick="albumFiltrar('legendary')" style="color:var(--gold)" id="fLend">⭐ Lendárias</button>
-        <button class="btn btn-ghost btn-sm" onclick="albumFiltrar('epic')" style="color:#a855f7" id="fEpic">💜 Épicas</button>
-        <button class="btn btn-ghost btn-sm" onclick="albumFiltrar('rare')" style="color:#3b82f6" id="fRare">💙 Raras</button>
-        <button class="btn btn-ghost btn-sm" onclick="albumFiltrar('common')" id="fComm">⬜ Comuns</button>
-      </div>
-      <div id="albumGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-        <div style="text-align:center;color:var(--td);padding:40px;grid-column:1/-1;font-size:13px">Jogue e ganhe figurinhas! 🃏</div>
-      </div>
-    </div>
-  </div>
+    <div id="albumGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px"><div style="text-align:center;color:var(--td);padding:40px;grid-column:1/-1">Jogue e ganhe figurinhas! 🃏</div></div>
+  </div></div>
   <div class="ad-mid"><div class="ad-slot">[ Ad ]</div></div>
 </div>
-
 </main>
 
 <!-- BOTTOM NAV MOBILE -->
@@ -3374,6 +3295,7 @@ input[type=range]::-webkit-slider-thumb {
 
 <!-- TOAST -->
 <div class="toast" id="toast"><span id="tIcon">✅</span><span id="tMsg"></span></div>
+
 
 <script>
 // ===================== CORE =====================
@@ -5371,59 +5293,12 @@ function escalReset() {
 // ══════════════════════════════════════════
 // ÁLBUM
 // ══════════════════════════════════════════
-let _albumFiltro = 'todas';
 
-function albumAbrir() {
-  const pill = document.querySelector('[onclick*="album"]');
-  go('album', pill);
-  albumRenderizar();
-}
 
-function albumFiltrar(tipo) {
-  _albumFiltro = tipo;
-  ['fTodas','fLend','fEpic','fRare','fComm'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.borderColor = '';
-  });
-  const mapa = {todas:'fTodas', legendary:'fLend', epic:'fEpic', rare:'fRare', common:'fComm'};
-  const el = document.getElementById(mapa[tipo]);
-  if (el) el.style.borderColor = 'var(--green)';
-  albumRenderizar();
-}
 
-function albumRenderizar() {
-  if (!window.ZERO) return;
-  const todas = ZERO.stickers || [];
-  const filtradas = _albumFiltro === 'todas' ? todas : todas.filter(s => s.rarity === _albumFiltro);
-  const total = todas.length;
-  const pct = Math.min(100, Math.round(total / 500 * 100));
-  if (document.getElementById('albumTotal')) document.getElementById('albumTotal').textContent = total + ' figurinha' + (total !== 1 ? 's' : '');
-  if (document.getElementById('albumMeta'))  document.getElementById('albumMeta').textContent = total + ' / 500';
-  if (document.getElementById('albumPct'))   document.getElementById('albumPct').textContent = pct + '%';
-  if (document.getElementById('albumBar'))   document.getElementById('albumBar').style.width = pct + '%';
-  if (document.getElementById('albumFaltam')) document.getElementById('albumFaltam').textContent = total >= 500 ? '🎉 META ATINGIDA!' : 'Faltam ' + (500-total) + ' figurinhas para carta especial';
 
-  const grid = document.getElementById('albumGrid');
-  if (!grid) return;
-  if (!filtradas.length) {
-    grid.innerHTML = '<div style="text-align:center;color:var(--td);padding:30px;grid-column:1/-1">Nenhuma figurinha aqui ainda</div>';
-    return;
-  }
-  const rc = {legendary:'var(--gold)', epic:'#a855f7', rare:'#3b82f6', common:'var(--td)'};
-  const rl = {legendary:'⭐ LENDÁRIA', epic:'💜 ÉPICA', rare:'💙 RARA', common:'⬜ COMUM'};
-  const rb = {legendary:'rgba(245,166,35,.35)', epic:'rgba(168,85,247,.25)', rare:'rgba(59,130,246,.25)', common:'var(--line2)'};
-  grid.innerHTML = filtradas.map(function(s) {
-    var border = rb[s.rarity] || 'var(--line2)';
-    var color  = rc[s.rarity] || 'var(--td)';
-    var label  = rl[s.rarity] || '';
-    return '<div style="background:var(--bg2);border:2px solid ' + border + ';border-radius:var(--r12);padding:14px 8px;text-align:center">'
-      + '<div style="font-size:34px;margin-bottom:6px">' + (s.emoji||'⚽') + '</div>'
-      + '<div style="font-size:13px;font-weight:700;line-height:1.2;margin-bottom:3px">' + s.name + '</div>'
-      + '<div style="font-size:10px;color:var(--td);margin-bottom:5px">' + (s.club||'') + '</div>'
-      + '<div style="font-size:9px;font-weight:700;color:' + color + '">' + label + '</div>'
-      + '</div>';
-  }).join('');
-}
+
+
 
 // Notificação de figurinha ganha com link para álbum
 const _origShowSticker = window.showSticker;
@@ -5437,7 +5312,7 @@ function showStickerComAlbum(rarity, emoji, name, club, xp) {
     const t = document.createElement('div');
     t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--bg2);border:2px solid var(--green);border-radius:var(--r12);padding:10px 14px;display:flex;align-items:center;gap:10px;z-index:9999;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.5);white-space:nowrap';
     t.innerHTML = '<span style="font-size:28px">' + emoji + '</span>'
-      + '<div style="flex:1"><div style="font-size:14px;font-weight:800;color:var(--green)">FIGURINHA GANHA!</div>'
+      + '<div style="flex:1">'
       + '<div style="font-size:11px;font-weight:700">' + name + '</div></div>'
       + '<button id="toastAlbumBtn" style="background:var(--green);color:#000;border:none;border-radius:var(--r8);padding:5px 10px;font-weight:800;font-size:11px;cursor:pointer;flex-shrink:0">VER ÁLBUM</button>';
     t.querySelector('#toastAlbumBtn').onclick = function(e) { e.stopPropagation(); albumAbrir(); t.remove(); };
@@ -5477,6 +5352,168 @@ function qGuessComFigurinhas() {
     toast('❌','Não é esse. Tente de novo!','bad');
   }
 }
+
+// ── QUIZ: DICAS (sem pontos) ──
+function qHint(btn, icon, text, cost) {
+  if (btn.classList.contains('used')) return;
+  btn.classList.add('used');
+  btn.style.borderColor = 'var(--green)';
+  btn.style.background = 'rgba(0,229,116,.08)';
+  const box = document.getElementById('qHintBox');
+  if (box) {
+    box.classList.add('show');
+    const item = document.createElement('div');
+    item.style.cssText = 'display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)';
+    item.innerHTML = '<span style="font-size:20px;flex-shrink:0">' + icon + '</span><span style="font-size:13px;line-height:1.5;color:var(--t)">' + text + '</span>';
+    box.appendChild(item);
+  }
+  const blurred = document.querySelector('#g-quiz .scv.blur');
+  if (blurred) blurred.classList.remove('blur');
+  toast('💡', text, 'info');
+}
+
+// ── QUIZ: RESPOSTA COM FIGURINHA ──
+function qGuessComFigurinhas() {
+  const v = document.getElementById('qInp').value.trim().toLowerCase();
+  if (!v) return;
+  document.getElementById('qAc').classList.remove('show');
+  const atual = window._QUIZ && window._QUIZ.atual;
+  if (!atual) { toast('⏳','Carregando dados...','info'); return; }
+  const nome = atual.nome.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const partes = nome.split(' ');
+  const vNorm = v.normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const acertou = partes.some(function(p){ return p.length > 2 && vNorm.includes(p); }) || nome.includes(vNorm);
+  if (acertou) {
+    const rarMap = {facil:'common', medio:'rare', dificil:'legendary'};
+    const rar = rarMap[atual.dificuldade] || 'rare';
+    if (window.ZERO) ZERO.earnSticker(rar, atual.emoji_bandeira || '⚽', atual.nome, atual.clube, 100);
+    openModal('🏆','win','ACERTOU!', atual.nome + ' — ' + atual.clube,
+      '<div style="text-align:center"><div style="font-size:28px;font-weight:900;color:var(--green)">' + atual.nome.toUpperCase() + '</div><div style="color:var(--td);margin-top:4px">' + atual.clube + ' · ' + atual.liga + '</div></div>');
+    if (window.ZERO) { ZERO.gainXP(150); ZERO.updateStreak(); }
+  } else {
+    const dots = document.querySelectorAll('#qDots .dot');
+    const a = Array.from(dots).findIndex(function(d){ return d.classList.contains('on'); });
+    if (a >= 0) { dots[a].classList.replace('on','xx'); if (dots[a+1]) dots[a+1].classList.add('on'); }
+    const gl = document.getElementById('qGuesses');
+    if (gl) gl.innerHTML += '<div class="guess-wrong"><span class="x">✗</span><span>' + document.getElementById('qInp').value + '</span></div>';
+    document.getElementById('qInp').value = '';
+    toast('❌','Não é esse. Tente de novo!','bad');
+  }
+}
+function qGuess() { qGuessComFigurinhas(); }
+function qGuessFromSheet() { qGuessComFigurinhas(); }
+
+function escalInit() {
+  if (escalIniciado) return; escalIniciado=true;
+  const banco = document.getElementById('escalBanco'); if (!banco) return;
+  const t = document.getElementById('escalTitle'); if (t) t.textContent = ESCAL_DATA.title;
+  const todos = ESCAL_DATA.jogadores.concat(ESCAL_DATA.decoys.map(function(n){ return {id:null,nome:n,num:'?'}; }));
+  todos.sort(function(){ return Math.random()-.5; });
+  banco.innerHTML = '';
+  todos.forEach(function(j) {
+    const b = document.createElement('button');
+    b.className = 'btn btn-ghost btn-sm';
+    b.style.cssText = 'padding:6px 10px;font-size:12px;font-weight:700;color:var(--t)';
+    b.textContent = (j.num !== '?' ? '#'+j.num+' ' : '') + j.nome;
+    b.onclick = function(){ escalPegar(b, j); };
+    banco.appendChild(b);
+  });
+}
+function escalPegar(btn, j) {
+  document.querySelectorAll('#escalBanco button.sel-banco').forEach(function(b){ b.classList.remove('sel-banco'); });
+  if (escalSel && escalSel.btn === btn) { escalSel=null; var msg=document.getElementById('escalMsg'); if(msg) msg.style.display='none'; return; }
+  escalSel = {btn:btn, j:j}; btn.classList.add('sel-banco');
+  var msg=document.getElementById('escalMsg');
+  if (msg) { msg.style.display='block'; msg.textContent='#'+j.num+' '+j.nome+' — toque numa posição no campo ↑'; }
+}
+function escalSelect(slotId) {
+  var slot=document.getElementById('sl-'+slotId); if (!slot) return;
+  if (!escalSel) { var msg=document.getElementById('escalMsg'); if(msg){msg.style.display='block';msg.textContent='Primeiro toque num jogador do banco abaixo ↓';} return; }
+  var j=escalSel.j;
+  slot.innerHTML='<div style="font-size:10px;font-weight:800;line-height:1">'+j.num+'</div><div style="font-size:7px;line-height:1.1;margin-top:2px;max-width:48px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+j.nome.split(' ')[0]+'</div>';
+  slot.classList.add('filled'); slot.classList.remove('wrong','sel');
+  escalColocados[slotId]=j;
+  escalSel.btn.style.opacity='.35'; escalSel.btn.disabled=true; escalSel=null;
+  var msg=document.getElementById('escalMsg'); if(msg) msg.style.display='none';
+  var n=Object.keys(escalColocados).length;
+  var el=document.getElementById('escalCount'); if(el) el.textContent=n+'/11 colocados';
+  if(n>=11){ var b=document.getElementById('escalBtn'); if(b) b.style.display='block'; }
+}
+function escalVerificar() {
+  var certos=0;
+  ESCAL_DATA.jogadores.forEach(function(j){
+    var slot=document.getElementById('sl-'+j.id); var col=escalColocados[j.id];
+    if (!slot) return;
+    if (col && col.nome===j.nome) { slot.classList.add('filled'); slot.classList.remove('wrong'); certos++; }
+    else { slot.classList.add('wrong'); slot.classList.remove('filled'); }
+  });
+  var res=document.getElementById('escalResult'); if (!res) return;
+  res.style.display='block';
+  if (certos===11) {
+    res.style.cssText='display:block;margin-top:12px;padding:14px;border-radius:var(--r8);text-align:center;font-weight:700;font-size:14px;background:rgba(0,229,116,.12);border:1px solid var(--green);color:var(--green)';
+    res.textContent='PERFEITO! Escalação correta!';
+    if (window.ZERO) ZERO.earnSticker('epic','📋','Técnico Completo',ESCAL_DATA.title,150);
+  } else {
+    res.style.cssText='display:block;margin-top:12px;padding:14px;border-radius:var(--r8);text-align:center;font-weight:700;font-size:14px;background:var(--redg);border:1px solid var(--red);color:var(--red)';
+    res.textContent=certos+'/11 corretos — posições vermelhas erradas!';
+    var btn=document.getElementById('escalBtn'); if(btn){btn.textContent='TENTAR DE NOVO';btn.onclick=function(){escalReset();};}
+  }
+}
+function escalReset() {
+  escalColocados={}; escalSel=null; escalIniciado=false;
+  document.querySelectorAll('.pslot').forEach(function(s){
+    s.classList.remove('filled','wrong','sel');
+    var ab=s.id.replace('sl-','');
+    s.innerHTML='<span style="font-size:9px;opacity:.6">'+ab+'</span>';
+    s.disabled=false;
+  });
+  var res=document.getElementById('escalResult'); if(res) res.style.display='none';
+  var btn=document.getElementById('escalBtn'); if(btn){btn.style.display='none';btn.textContent='VERIFICAR ESCALAÇÃO';btn.onclick=escalVerificar;}
+  document.getElementById('escalCount').textContent='0/11 colocados';
+  escalInit();
+}
+
+// ── ÁLBUM ──
+var _albumFiltro='todas';
+function albumAbrir() { var pill=document.querySelector('[onclick*="album"]'); go('album',pill); albumRenderizar(); }
+function albumFiltrar(tipo) {
+  _albumFiltro=tipo;
+  ['fTodas','fLend','fEpic','fRare','fComm'].forEach(function(id){ var el=document.getElementById(id); if(el) el.style.borderColor=''; });
+  var mapa={todas:'fTodas',legendary:'fLend',epic:'fEpic',rare:'fRare',common:'fComm'};
+  var el=document.getElementById(mapa[tipo]); if(el) el.style.borderColor='var(--green)';
+  albumRenderizar();
+}
+function albumRenderizar() {
+  if (!window.ZERO) return;
+  var todas=ZERO.stickers||[]; var filtradas=_albumFiltro==='todas'?todas:todas.filter(function(s){return s.rarity===_albumFiltro;});
+  var total=todas.length; var pct=Math.min(100,Math.round(total/500*100));
+  var e=function(id,v){var el=document.getElementById(id);if(el)el.textContent=v;};
+  e('albumTotal',total+' figurinha'+(total!==1?'s':'')); e('albumMeta',total+' / 500');
+  e('albumPct',pct+'%'); e('albumFaltam',total>=500?'🎉 META ATINGIDA!':'Faltam '+(500-total)+' figurinhas');
+  var bar=document.getElementById('albumBar'); if(bar) bar.style.width=pct+'%';
+  var grid=document.getElementById('albumGrid'); if(!grid) return;
+  if(!filtradas.length){grid.innerHTML='<div style="text-align:center;color:var(--td);padding:30px;grid-column:1/-1">Nenhuma figurinha aqui ainda</div>';return;}
+  var rc={legendary:'var(--gold)',epic:'#a855f7',rare:'#3b82f6',common:'var(--td)'};
+  var rl={legendary:'⭐ LENDÁRIA',epic:'💜 ÉPICA',rare:'💙 RARA',common:'⬜ COMUM'};
+  var rb={legendary:'rgba(245,166,35,.35)',epic:'rgba(168,85,247,.25)',rare:'rgba(59,130,246,.25)',common:'var(--line2)'};
+  grid.innerHTML=filtradas.map(function(s){
+    return '<div style="background:var(--bg2);border:2px solid '+(rb[s.rarity]||'var(--line2)')+';border-radius:var(--r12);padding:14px 8px;text-align:center">'
+      +'<div style="font-size:34px;margin-bottom:6px">'+(s.emoji||'⚽')+'</div>'
+      +'<div style="font-size:13px;font-weight:700;line-height:1.2;margin-bottom:3px">'+s.name+'</div>'
+      +'<div style="font-size:10px;color:var(--td);margin-bottom:5px">'+(s.club||'')+'</div>'
+      +'<div style="font-size:9px;font-weight:700;color:'+(rc[s.rarity]||'var(--td)')+'">'+( rl[s.rarity]||'')+'</div>'
+      +'</div>';
+  }).join('');
+}
+
+// ── CALLBACK go() para escalação e álbum ──
+var _goOriginal = window.go;
+window.go = function(id, btn) {
+  _goOriginal(id, btn);
+  if (id === 'escalacao') escalInit();
+  if (id === 'album') albumRenderizar();
+};
+
 </script>
 </body>
 </html>
