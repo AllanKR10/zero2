@@ -6845,31 +6845,32 @@ function initGaleria() {
 
 
 function updateGalStage() {
-
   if (gIdx >= players.length) { endGaleria(); return; }
 
   const p = players[gIdx];
 
-  document.getElementById('galNum').textContent = `JOGADOR ${gIdx + 1} DE ${players.length}`;
+  const elNum = document.getElementById('galNum');
+  if (elNum) elNum.textContent = `JOGADOR ${gIdx + 1} DE ${players.length}`;
 
-  document.getElementById('galAvatar').textContent = p.emoji;
+  const elAv = document.getElementById('galAvatar');
+  if (elAv) elAv.textContent = p.emoji;
 
-  if(document.getElementById('galPos')) document.getElementById('galPos').textContent='';
+  if (document.getElementById('galPos')) document.getElementById('galPos').textContent = '';
 
-  document.getElementById('galHintTxt').textContent = 'Quem é esse jogador?';
+  const elHint = document.getElementById('galHintTxt');
+  if (elHint) elHint.textContent = 'Quem é esse jogador?';
 
-  document.getElementById('galFlash').className = 'flash-result';
+  const elFlash = document.getElementById('galFlash');
+  if (elFlash) elFlash.className = 'flash-result';
 
-  document.getElementById('galInp').value = '';
+  const elInp = document.getElementById('galInp');
+  if (elInp) { elInp.value = ''; elInp.focus(); }
 
-  document.getElementById('galInp').focus();
-
-  document.getElementById('gd' + gIdx)?.classList.add('gd-active');
+  const elDot = document.getElementById('gd' + gIdx);
+  if (elDot) elDot.classList.add('gd-active');
 
   gAttempts = 0; gHintUsed = false;
-
   updateGalBars();
-
 }
 
 
