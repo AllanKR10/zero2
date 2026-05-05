@@ -257,12 +257,17 @@ window.qProximo = function() {
   document.querySelectorAll('#g-quiz .scv').forEach((el, i) => {
     if (vals[i] !== undefined) el.textContent = vals[i];
   });
-  document.getElementById('qInp').value = '';
-  document.getElementById('qGuesses').innerHTML = '';
-  document.getElementById('qHintBox').innerHTML = '';
-  document.getElementById('qHintBox').classList.remove('show');
-  document.querySelectorAll('#g-quiz .hint-btn').forEach(b => b.classList.remove('used'));
-  const dots = document.querySelectorAll('#qDots .dot');
-  dots.forEach(d => { d.className = 'dot'; });
-  if (dots[0]) dots[0].classList.add('on');
-};
+const pistas = [
+  { icon: r.emoji || '🏟️', txt: r.pista_clube },
+  { icon: '🌎', txt: r.pista_selecao },
+  { icon: '📍', txt: r.pista_origem },
+  { icon: '🏆', txt: r.pista_titulo },
+  { icon: '👕', txt: r.pista_camisa },
+  { icon: '🎭', txt: r.pista_apelido }
+];
+document.querySelectorAll('#g-quiz .hint-btn').forEach((btn, i) => {
+  if (pistas[i] && pistas[i].txt) {
+    const p = pistas[i];
+    btn.onclick = function() { qHint(this, p.icon, p.txt, 50); };
+  }
+});
