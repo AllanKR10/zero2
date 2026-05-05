@@ -9791,55 +9791,49 @@ async function fetchSheet(nome) {
 
 
 function parseCSV(csv) {
-
-  const lines = csv.trim().split('\n');
-
+  // 1. Previne erros de quebra de linha se a planilha for salva no Windows ou Mac
+  const lines = csv.trim().split(/\r?\n/);
   if (lines.length < 2) return [];
-
+  
+  // 2. DETECÇÃO INTELIGENTE: Verifica se o Google usou vírgula ou ponto-e-vírgula
+  const separator = lines[0].includes(';') ? ';' : ',';
+  
   const clean = s => s.replace(/^"|"$/g,'').replace(/""/g,'"').trim();
-
-  const headers = lines[0].split(',').map(clean);
+  
+  // 3. BLINDAGEM DE CABEÇALHOS: Tira maiúsculas e acentos automaticamente 
+  // Ex: "Posição" vira "posicao", "Seleção" vira "selecao"
+  const headers = lines[0].split(separator).map(h => 
+    clean(h).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  );
 
   return lines.slice(1).map(line => {
-
     const vals = []; let cur = '', inQ = false;
-
     for (const c of line) {
-
       if (c === '"' && !inQ) { inQ = true; continue; }
-
       if (c === '"' && inQ)  { inQ = false; continue; }
-
-      if (c === ',' && !inQ) { vals.push(clean(cur)); cur = ''; continue; }
-
+      
+      // Usa o separador que nós detectamos lá em cima
+      if (c === separator && !inQ) { vals.push(clean(cur)); cur = ''; continue; }
       cur += c;
-
     }
-
     vals.push(clean(cur));
-
+    
     const obj = {};
-
     headers.forEach((h,i) => obj[h] = vals[i] ?? '');
-
     return obj;
-
   });
-
 }
 
-
-
 function getDoDia(rows) {
-
   if (!rows) return null;
-
-  const hoje = new Date().toISOString().split('T')[0];
-
-  const doHoje = rows.filter(r => r.data === hoje);
-
-  return doHoje.length ? doHoje : rows; // fallback: retorna tudo se não tiver hoje
-
+  
+  // 4. Correção da Data: Pega o formato Americano E o formato Brasileiro
+  const hojeISO = new Date().toISOString().split('T')[0];
+  const hojeBR = new Date().toLocaleDateString('pt-BR');
+  
+  // Filtra procurando por qualquer um dos dois formatos na planilha
+  const doHoje = rows.filter(r => r.data === hojeISO || r.data === hojeBR);
+  return doHoje.length ? doHoje : rows; // fallback: se não achar a data de hoje, mostra o primeiro que achar
 }
 
 
