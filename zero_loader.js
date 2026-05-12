@@ -10,6 +10,48 @@ function getDia(arr) {
   return doHoje.length ? doHoje : arr.filter(r => r.data === arr[0].data);
 }
 
+// Monta array de pistas a partir de um registro do quiz
+function montarPistas(r) {
+  return [
+    { icon: r.emoji || '🏟️', txt: r.pista_clube },
+    { icon: '🌎', txt: r.pista_selecao },
+    { icon: '📍', txt: r.pista_origem },
+    { icon: '🏆', txt: r.pista_titulo },
+    { icon: '👕', txt: r.pista_camisa },
+    { icon: '🎭', txt: r.pista_apelido }
+  ];
+}
+
+// Aplica pistas nos botões de um card específico (sem afetar outros cards)
+function aplicarPistasNoCard(r) {
+  const rodadaNum = r.rodada || 1;
+  // Tenta achar o card pelo data-rodada; fallback: pega o card ativo
+  let hintGrid = document.querySelector(`#g-quiz .rodada-card[data-rodada="${rodadaNum}"] .hint-grid`);
+  if (!hintGrid) {
+    // fallback: usa o primeiro hint-grid visível
+    hintGrid = document.querySelector('#g-quiz .rodada-card.active .hint-grid')
+            || document.querySelector('#g-quiz .hint-grid');
+  }
+  if (!hintGrid) return;
+
+  const pistas = montarPistas(r);
+
+  // Limpa estado visual dos botões deste card
+  hintGrid.querySelectorAll('.hint-btn').forEach(b => {
+    b.classList.remove('used');
+    b.style.borderColor = '';
+    b.style.background = '';
+  });
+
+  // Atribui onclick correto
+  hintGrid.querySelectorAll('.hint-btn').forEach((btn, i) => {
+    if (pistas[i] && pistas[i].txt) {
+      const p = pistas[i];
+      btn.onclick = function() { qHint(this, p.icon, p.txt, 50); };
+    }
+  });
+}
+
 function carregarTodos() {
   if (typeof DADOS === 'undefined') { console.warn('[ZERO] dados.js não carregado'); return; }
   console.log('[ZERO] Carregando dados...');
@@ -18,16 +60,8 @@ function carregarTodos() {
   const quiz = getDia(DADOS.quiz);
   if (quiz && quiz.length) {
     const r = quiz.find(q => q.rodada === 1) || quiz[0];
-    window._QUIZ = { rows: quiz, idx: 0, atual: {
-      nome: r.nome, posicao: r.posicao, idade: r.idade,
-      nacionalidade: r.nacionalidade, liga: r.liga, clube: r.clube,
-      gols_temporada: r.gols_temporada, assists_temporada: r.assists_temporada,
-      altura: r.altura, pe: r.pe === 'DIR' ? 'DIR' : 'ESQ',
-      emoji_bandeira: r.emoji, dificuldade: r.dificuldade,
-      pista_clube: r.pista_clube, pista_selecao: r.pista_selecao,
-      pista_origem: r.pista_origem, pista_titulo: r.pista_titulo,
-      pista_camisa: r.pista_camisa, pista_apelido: r.pista_apelido
-    }};
+    window._QUIZ = { rows: quiz, idx: 0, atual: r };
+
     // Stats na tela
     const vals = [r.posicao, r.idade, r.nacionalidade, r.liga,
                   r.gols_temporada, r.assists_temporada, r.altura,
@@ -35,21 +69,10 @@ function carregarTodos() {
     document.querySelectorAll('#g-quiz .scv').forEach((el, i) => {
       if (vals[i] !== undefined) el.textContent = vals[i];
     });
-    // Pistas nos botões
-    const pistas = [
-      { icon: r.emoji || '🏟️', txt: r.pista_clube },
-      { icon: '🌎', txt: r.pista_selecao },
-      { icon: '📍', txt: r.pista_origem },
-      { icon: '🏆', txt: r.pista_titulo },
-      { icon: '👕', txt: r.pista_camisa },
-      { icon: '🎭', txt: r.pista_apelido }
-    ];
-    document.querySelectorAll('#g-quiz .hint-btn').forEach((btn, i) => {
-      if (pistas[i] && pistas[i].txt) {
-        const p = pistas[i];
-        btn.onclick = function() { qHint(this, p.icon, p.txt, 50); };
-      }
-    });
+
+    // Pistas nos botões — apenas do card da rodada 1
+    aplicarPistasNoCard(r);
+
     console.log('[ZERO] Quiz:', r.nome);
   }
 
@@ -58,9 +81,6 @@ function carregarTodos() {
   if (imp && imp.length) {
     const d = imp[0];
     window._IMP_CORRETO = d.impostor;
-    // Atualiza título
-    const titulo = document.querySelector('#g-impostor .versus-question, #g-impostor [style*="font-family"]');
-    const nomes = d.jogadores.map(j => j.nome);
     d.jogadores.forEach((j, i) => {
       const card = document.getElementById('ic' + i);
       if (card) {
@@ -69,7 +89,6 @@ function carregarTodos() {
         card.querySelector('.imp-photo div').textContent = j.nac;
       }
     });
-    // Evidências
     document.querySelectorAll('.evid-btn').forEach((btn, i) => {
       if (d.evidencias[i]) {
         const ev = d.evidencias[i];
@@ -95,13 +114,10 @@ function carregarTodos() {
   if (carr && carr.length) {
     window._CARREIRA_HOJE = carr;
     const c = carr[0];
-    // Stats
     const scvs = document.querySelectorAll('#g-carreira .scv');
     if (scvs[0]) scvs[0].textContent = c.gols;
     if (scvs[1]) scvs[1].textContent = c.clubes;
     if (scvs[2]) scvs[2].textContent = c.anos;
-    // Clubes
-    const cclub1 = document.querySelector('#g-carreira [id="cclub1"], #g-carreira div:nth-child(1)');
     console.log('[ZERO] Carreira:', c.nome);
   }
 
@@ -132,7 +148,6 @@ function carregarTodos() {
     if (nome) nome.textContent = c.jogador;
     const pos = document.getElementById('clubePlayerPos');
     if (pos) pos.textContent = 'Posição: ' + c.pos;
-    // Opções
     const opts = document.getElementById('clubeOpts');
     if (opts) {
       opts.innerHTML = c.opcoes.map(op =>
@@ -154,14 +169,12 @@ function carregarTodos() {
       '<span class="tag tag-gold">' + g.categoria + ' ' + g.ano + '</span>' +
       '<span class="tag tag-dim">' + g.fase + '</span>' +
       '<span class="tag tag-dim">' + g.local + '</span>';
-    // Opções
     const opts = document.querySelector('#g-gol .opts-2x2');
     if (opts) {
       opts.innerHTML = g.opcoes.map(op =>
         '<button class="opt-card" onclick="golGuess(this,\'' + op + '\',' + (op === g.correct) + ')">' + op + '</button>'
       ).join('');
     }
-    // Pistas
     if (g.pistas && g.pistas[0]) {
       const p1 = document.querySelector('#g-gol .card-body > div > div:first-child');
       if (p1) p1.textContent = '✓ ' + g.pistas[0];
@@ -212,7 +225,6 @@ function carregarTodos() {
     console.log('[ZERO] Forca:', window.TRAV_WORD);
   }
 
-  // Inicializa ZERO (XP, streak, etc)
   if (window.ZERO) ZERO.init();
   console.log('[ZERO] Pronto!');
 }
@@ -225,17 +237,14 @@ function carregarProximoEscudo() {
   if (idx >= escudo.length) return;
   const e = escudo[idx];
   window.CLUBE_ANS = e.correct;
-  // Emoji
   const emoji = document.getElementById('shEmoji');
   if (emoji) emoji.textContent = e.emoji;
-  // Opções
   const opts = document.querySelector('#g-escudo .opts-2x2');
   if (opts) {
     opts.innerHTML = e.opcoes.map(op =>
       '<button class="opt-card" onclick="escGuess(this,\'' + op + '\')">' + op + '</button>'
     ).join('');
   }
-  // Pistas
   window.eHintTexts = e.pistas;
   window.eHints = 0;
 }
@@ -249,8 +258,8 @@ window.qProximo = function() {
   const idx = (window._QUIZ.idx || 0) + 1;
   if (idx >= quiz.length) return;
   window._QUIZ.idx = idx;
-  window._QUIZ.atual = quiz[idx];
   const r = quiz[idx];
+  window._QUIZ.atual = r;
 
   // Atualiza stats
   const vals = [r.posicao, r.idade, r.nacionalidade, r.liga,
@@ -260,36 +269,18 @@ window.qProximo = function() {
     if (vals[i] !== undefined) el.textContent = vals[i];
   });
 
-  // Limpa dicas antigas
+  // Limpa caixa de dicas abertas
   const box = document.getElementById('qHintBox');
   if (box) { box.innerHTML = ''; box.classList.remove('show'); }
 
-  // Reseta botões de dica
-  document.querySelectorAll('#g-quiz .hint-btn').forEach(b => {
-    b.classList.remove('used');
-    b.style.borderColor = '';
-    b.style.background = '';
-  });
-
-  // Atualiza pistas nos botões
-  const pistas = [
-    { icon: r.emoji || '🏟️', txt: r.pista_clube },
-    { icon: '🌎', txt: r.pista_selecao },
-    { icon: '📍', txt: r.pista_origem },
-    { icon: '🏆', txt: r.pista_titulo },
-    { icon: '👕', txt: r.pista_camisa },
-    { icon: '🎭', txt: r.pista_apelido }
-  ];
-  document.querySelectorAll('#g-quiz .hint-btn').forEach((btn, i) => {
-    if (pistas[i] && pistas[i].txt) {
-      const p = pistas[i];
-      btn.onclick = function() { qHint(this, p.icon, p.txt, 50); };
-    }
-  });
+  // Aplica pistas APENAS no card da nova rodada (limpa + reatribui onclick)
+  aplicarPistasNoCard(r);
 
   // Limpa input e tentativas
-  document.getElementById('qInp').value = '';
-  document.getElementById('qGuesses').innerHTML = '';
+  const inp = document.getElementById('qInp');
+  if (inp) inp.value = '';
+  const guesses = document.getElementById('qGuesses');
+  if (guesses) guesses.innerHTML = '';
   const dots = document.querySelectorAll('#qDots .dot');
   dots.forEach(d => { d.className = 'dot'; });
   if (dots[0]) dots[0].classList.add('on');
