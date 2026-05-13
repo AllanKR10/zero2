@@ -256,7 +256,12 @@ window.qProximo = function() {
   if (!window._QUIZ) return;
   const quiz = window._QUIZ.rows;
   const idx = (window._QUIZ.idx || 0) + 1;
-  if (idx >= quiz.length) return;
+  if (idx >= quiz.length) {
+  toast('✅', 'Volte amanhã para novos jogadores!', 'ok');
+  document.getElementById('qInp').disabled = true;
+  document.querySelector('#g-quiz .btn-r').disabled = true;
+  return;
+}
   window._QUIZ.idx = idx;
   const r = quiz[idx];
   window._QUIZ.atual = r;
