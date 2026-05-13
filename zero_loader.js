@@ -284,4 +284,11 @@ window.qProximo = function() {
   const dots = document.querySelectorAll('#qDots .dot');
   dots.forEach(d => { d.className = 'dot'; });
   if (dots[0]) dots[0].classList.add('on');
+  if (dots[0]) dots[0].classList.add('on');
+
+  // Desbloqueia card visual da rodada 3
+  if (r.rodada === 3) {
+    const card = document.getElementById('rodada3Card');
+    if (card) card.style.opacity = '1';
+  }
 };
