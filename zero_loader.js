@@ -291,7 +291,7 @@ window.qProximo = function() {
   if (dots[0]) dots[0].classList.add('on');
   
   // Desbloqueia card visual da rodada 3
-  if (r.rodada === 3) {
+  if (parseInt(r.rodada) === 3) {
     const card = document.getElementById('rodada3Card');
     if (card) card.style.opacity = '1';
   }
