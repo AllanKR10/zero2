@@ -10703,60 +10703,6 @@ function qHint(btn, icon, text, cost) {
 
 // ── QUIZ: RESPOSTA COM FIGURINHA ──
 
-function qGuessComFigurinhas() {
-
-  const v = document.getElementById('qInp').value.trim().toLowerCase();
-
-  if (!v) return;
-
-  document.getElementById('qAc').classList.remove('show');
-
-  const atual = window._QUIZ && window._QUIZ.atual;
-
-  if (!atual) { toast('⏳','Carregando dados...','info'); return; }
-
-  const nome = atual.nome.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-
-  const partes = nome.split(' ');
-
-  const vNorm = v.normalize('NFD').replace(/[̀-ͯ]/g,'');
-
-  const acertou = partes.some(function(p){ return p.length > 2 && vNorm.includes(p); }) || nome.includes(vNorm);
-
-  if (acertou) {
-
-    const rarMap = {facil:'common', medio:'rare', dificil:'legendary'};
-
-    const rar = rarMap[atual.dificuldade] || 'rare';
-
-    if (window.ZERO) ZERO.earnSticker(rar, atual.emoji_bandeira || '⚽', atual.nome, atual.clube, 100);
-
-
-    if (window.ZERO) { ZERO.gainXP(150); ZERO.updateStreak(); }
-
-  } else {
-
-    const dots = document.querySelectorAll('#qDots .dot');
-
-    const a = Array.from(dots).findIndex(function(d){ return d.classList.contains('on'); });
-
-    if (a >= 0) { dots[a].classList.replace('on','xx'); if (dots[a+1]) dots[a+1].classList.add('on'); }
-
-    const gl = document.getElementById('qGuesses');
-
-    if (gl) gl.innerHTML += '<div class="guess-wrong"><span class="x">✗</span><span>' + document.getElementById('qInp').value + '</span></div>';
-
-    document.getElementById('qInp').value = '';
-
-    toast('❌','Não é esse. Tente de novo!','bad');
-
-  }
-
-}
-
-function qGuess() { qGuessComFigurinhas(); }
-
-function qGuessFromSheet() { qGuessComFigurinhas(); }
 
 
 
