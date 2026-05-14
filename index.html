@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <meta name="theme-color" content="#050507">
-
+h
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <title>ZERO — De Zero a Craque</title>h
@@ -6743,13 +6743,11 @@ function qGuess() {
 
 
 function qGiveup() {
-
-  openModal('💡', 'lose', 'ERA RODRYGO!', 'Rodrygo Goes — Real Madrid e Seleção Brasileira',
-
-    `<div style="text-align:center"><div style="font-family:'Bebas Neue';font-size:36px;color:var(--td)"></div></div>`);
-
+  const atual = window._QUIZ && window._QUIZ.atual;
+  const nome = atual ? atual.nome : '???';
+  const clube = atual ? atual.clube : '';
+  openModal('💡', 'lose', 'ERA ' + nome.toUpperCase() + '!', clube, '');
 }
-
 
 
 // ===================== G2: GALERIA =====================
@@ -10641,9 +10639,6 @@ function qGuessComFigurinhas() {
 
     showStickerComAlbum(rar, atual.emoji_bandeira||'⚽', atual.nome, atual.clube + ' · ' + atual.liga, 100);
 
-    openModal('🏆','win','ACERTOU!', atual.nome + ' — ' + atual.clube,
-
-      '<div style="text-align:center"><div style="font-size:28px;font-weight:900;color:var(--green)">' + atual.nome.toUpperCase() + '</div><div style="color:var(--td);margin-top:4px">' + atual.clube + ' - ' + atual.liga + '</div></div>');
 
 if (window.ZERO) { ZERO.earnSticker(rar, atual.emoji_bandeira||'⚽', atual.nome, atual.clube, 100); ZERO.gainXP(150); ZERO.updateStreak(); }
   } else {
@@ -10736,9 +10731,6 @@ function qGuessComFigurinhas() {
 
     if (window.ZERO) ZERO.earnSticker(rar, atual.emoji_bandeira || '⚽', atual.nome, atual.clube, 100);
 
-    openModal('🏆','win','ACERTOU!', atual.nome + ' — ' + atual.clube,
-
-      '<div style="text-align:center"><div style="font-size:28px;font-weight:900;color:var(--green)">' + atual.nome.toUpperCase() + '</div><div style="color:var(--td);margin-top:4px">' + atual.clube + ' · ' + atual.liga + '</div></div>');
 
     if (window.ZERO) { ZERO.gainXP(150); ZERO.updateStreak(); }
 
