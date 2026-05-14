@@ -10632,16 +10632,30 @@ function qGuessComFigurinhas() {
   const acertou = partes.some(p => p.length > 2 && vNorm.includes(p)) || nome.includes(vNorm);
 
   if (acertou) {
-
-    const rarMap = {facil:'common', medio:'rare', dificil:'legendary'};
-
-    const rar = rarMap[atual.dificuldade] || 'rare';
-
-    showStickerComAlbum(rar, atual.emoji_bandeira||'⚽', atual.nome, atual.clube + ' · ' + atual.liga, 100);
-
-
-if (window.ZERO) { ZERO.earnSticker(rar, atual.emoji_bandeira||'⚽', atual.nome, atual.clube, 100); ZERO.gainXP(150); ZERO.updateStreak(); }
-  } else {
+    // Mostra nome e emoji do jogador na tela
+    const sil = document.querySelector('#g-quiz .sil');
+    if (sil) { sil.textContent = atual.emoji_bandeira || '⚽'; sil.style.filter = 'none'; }
+    const titulo = document.querySelector('#g-quiz .card-body > div:nth-child(2)');
+    if (titulo) titulo.innerHTML = '<div style="font-size:10px;color:var(--td);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px">ACERTOU!</div><div style="font-family:\'Bebas Neue\';font-size:30px;letter-spacing:1px;color:var(--green)">' + atual.nome.toUpperCase() + '</div><div style="font-size:13px;color:var(--td);margin-top:4px">' + atual.clube + ' · ' + atual.liga + '</div>';
+    // Esconde input e mostra botão próximo
+    document.querySelector('#g-quiz .input-row').style.display = 'none';
+    document.querySelector('#g-quiz .btn-ghost[onclick*="qGiveup"]').style.display = 'none';
+    const btnProx = document.createElement('button');
+    btnProx.className = 'btn btn-r btn-full';
+    btnProx.style.marginTop = '12px';
+    btnProx.textContent = 'Próximo →';
+    btnProx.onclick = function() { qProximo(); };
+    document.querySelector('#g-quiz .card-body').appendChild(btnProx);
+    // Salva rodada concluída
+    if (!window._QUIZ_DONE) window._QUIZ_DONE = 0;
+    window._QUIZ_DONE++;
+    // Figurinha só na rodada 3
+    if (window._QUIZ_DONE >= 3) {
+      const rarMap = {facil:'common', medio:'rare', dificil:'legendary'};
+      const rar = rarMap[atual.dificuldade] || 'rare';
+      if (window.ZERO) { ZERO.earnSticker(rar, atual.emoji_bandeira||'⚽', atual.nome, atual.clube, 100); ZERO.gainXP(150); ZERO.updateStreak(); }
+    }
+  }
 
     const dots = document.querySelectorAll('#qDots .dot');
 
