@@ -209,7 +209,7 @@ function carregarTodos() {
       correct: v.correct
     }));
     vIdx = 0; vCorrect = 0; vWrong = 0; vPts = 0;
-    loadVersus();
+    if (typeof loadVersus === 'function') loadVersus();
     console.log('[ZERO] Versus:', versus.length, 'duelos');
   }
 
@@ -219,7 +219,7 @@ function carregarTodos() {
     const f = forca[0];
     window.TRAV_WORD = f.palavra.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
     window.TRAV_HINT = f.dica1;
-    initTrav();
+    if (typeof initTrav === 'function') initTrav();
     const el = document.getElementById('travHint');
     if (el) el.innerHTML = '<span style="margin-right:6px">💡</span>' + f.dica1;
     console.log('[ZERO] Forca:', window.TRAV_WORD);
